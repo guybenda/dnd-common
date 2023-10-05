@@ -16,7 +16,7 @@ export interface ClientToServerEvents {
 export interface InterServerEvents {}
 
 export interface SocketData {
-	isAdmin: string;
+	isAdmin: boolean;
 }
 
 export type UserAuth = {
