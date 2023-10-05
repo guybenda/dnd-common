@@ -1,28 +1,20 @@
-export type WSMessage<T extends WSMessageType> = {
-	type: T;
-	data: WSMessageDataType[T];
-};
+import { IDiceExpression, IDiceExpressionResult } from ".";
 
-export enum WSMessageType {
-	test1,
-	test2,
-	rollRequest,
-	rollResponse,
+export interface ServerToClientEvents {
+	rollResult: (name: string, id: string, result: IDiceExpressionResult) => void;
 }
 
-export type WSMessageDataType = {
-	[T in WSMessageType]: {
-		[WSMessageType.test1]: number;
-		[WSMessageType.test2]: string;
-		[WSMessageType.rollRequest]: RollRequest;
-		[WSMessageType.rollResponse]: RollResponse;
-	}[T];
-};
+export interface ClientToServerEvents {
+	roll: (
+		name: string,
+		id: string,
+		roll: IDiceExpression,
+		broadcast: boolean
+	) => void;
+}
 
-export type BaseRequest = {
-	public: boolean;
-};
+export interface InterServerEvents {}
 
-export type RollRequest = BaseRequest & {};
-
-export type RollResponse = {};
+export interface SocketData {
+	isAdmin: string;
+}

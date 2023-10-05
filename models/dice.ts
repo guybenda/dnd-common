@@ -20,7 +20,6 @@ export interface IDie {
 	chooseCount: number;
 	rollCount: number;
 	chooseTop: boolean;
-	roll(): IDieResult;
 }
 
 export interface IDieResult {
@@ -31,8 +30,6 @@ export interface IDieResult {
 
 export interface IDiceExpression {
 	dice: IDie[];
-	roll(): IDiceExpressionResult;
-	add(die: IDie): this;
 }
 
 export interface IDiceExpressionResult {
@@ -114,9 +111,9 @@ export class Die implements IDie {
 }
 
 export class DiceExpression implements IDiceExpression {
-	dice: IDie[];
+	dice: Die[];
 
-	constructor(...dice: IDie[]) {
+	constructor(...dice: Die[]) {
 		this.dice = dice;
 	}
 
@@ -137,7 +134,7 @@ export class DiceExpression implements IDiceExpression {
 		};
 	}
 
-	add(die: IDie): this {
+	add(die: Die): this {
 		this.dice.push(die);
 		return this;
 	}
