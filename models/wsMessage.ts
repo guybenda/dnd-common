@@ -18,3 +18,8 @@ export interface InterServerEvents {}
 export interface SocketData {
 	isAdmin: string;
 }
+
+export type UserAuth = {
+	userId: string;
+	gameId: string;
+};
