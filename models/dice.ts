@@ -113,8 +113,8 @@ export class Die implements IDie {
 export class DiceExpression implements IDiceExpression {
 	dice: Die[];
 
-	constructor(...dice: Die[]) {
-		this.dice = dice;
+	constructor(diceExp: IDiceExpression) {
+		this.dice = diceExp.dice.map(die => new Die(die));
 	}
 
 	roll(): IDiceExpressionResult {
