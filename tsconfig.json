@@ -4,11 +4,8 @@
 		"module": "ESNext",
 		"target": "ESNext",
 		"moduleResolution": "Bundler",
-		"strict": true,
-		"allowSyntheticDefaultImports": true,
-		"resolveJsonModule": true,
-		"allowJs": true,
-		"outDir": "./dist"
+		"outDir": "./lib",
+		"declaration": true
 	},
 
 	"extensions": [".ts", ".js"]
