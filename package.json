@@ -1,9 +1,12 @@
 {
 	"name": "dnd-common",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"type": "module",
 	"main": "lib/index.js",
 	"devDependencies": {
 		"typescript": "^5.2.2"
+	},
+	"scripts": {
+		"build": "tsc"
 	}
 }
