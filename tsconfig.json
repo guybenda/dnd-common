@@ -1,14 +1,14 @@
 {
 	"compilerOptions": {
 		"lib": ["ESNext"],
-		"module": "CommonJS",
-		"target": "ES5",
-		"moduleResolution": "Node",
+		"module": "ESNext",
+		"target": "ESNext",
+		"moduleResolution": "Bundler",
 		"strict": true,
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"allowJs": true,
-		"outDir": "./lib"
+		"outDir": "./dist"
 	},
 
 	"extensions": [".ts", ".js"]
