@@ -1,9 +1,13 @@
+import { Roll, User } from ".";
+
 export type Game = {
 	id: string;
 	name: string;
 	adminId: string;
-	/**
-	 * TODO
-	 */
-	data: object;
+	data: GameData;
+};
+
+export type GameData = {
+	players?: User[];
+	recentRolls?: Roll[];
 };

@@ -2,7 +2,7 @@ export declare enum Advantage {
     Advantage = "advantage",
     Disadvantage = "disadvantage"
 }
-export declare enum StandardDice {
+export declare enum D {
     d4 = 4,
     d6 = 6,
     d8 = 8,
@@ -12,41 +12,39 @@ export declare enum StandardDice {
     d100 = 100
 }
 export interface IDie {
-    ammount: number;
+    count: number;
     sides: number;
     modifier: number;
-    chooseCount: number;
-    rollCount: number;
-    chooseTop: boolean;
+    advantage?: Advantage;
 }
-export interface IDieResult {
+export interface IDieResult extends IDie {
     rolls: number[];
     total: number;
-    die: IDie;
 }
-export interface IDiceExpression {
+export interface IDice {
     dice: IDie[];
 }
-export interface IDiceExpressionResult {
+export interface IDiceResult extends IDice {
     results: IDieResult[];
     total: number;
-    dice: IDiceExpression;
 }
 export declare class Die implements IDie {
-    ammount: number;
+    count: number;
     sides: number;
     modifier: number;
-    chooseCount: number;
-    rollCount: number;
-    chooseTop: boolean;
+    advantage?: Advantage;
     constructor(die: Partial<IDie>);
-    static fromString(dieString: string): Die | null;
-    static fromStandardDie(die: StandardDice, count?: number, adv?: Advantage, modifier?: number): Die;
+    static d(die: D, count?: number, adv?: Advantage, modifier?: number): Die;
     roll(): IDieResult;
 }
-export declare class DiceExpression implements IDiceExpression {
+export declare class Dice implements IDice {
     dice: Die[];
-    constructor(diceExp: IDiceExpression);
-    roll(): IDiceExpressionResult;
+    noder: number;
+    constructor(diceExp: IDice);
+    roll(): IDiceResult;
     add(die: Die): this;
 }
+export type Roll = IDiceResult & {
+    name: string;
+    id: string;
+};

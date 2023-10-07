@@ -3,7 +3,7 @@ export enum Advantage {
 	Disadvantage = "disadvantage",
 }
 
-export enum StandardDice {
+export enum D {
 	d4 = 4,
 	d6 = 6,
 	d8 = 8,
@@ -14,76 +14,66 @@ export enum StandardDice {
 }
 
 export interface IDie {
-	ammount: number;
+	count: number;
 	sides: number;
 	modifier: number;
-	chooseCount: number;
-	rollCount: number;
-	chooseTop: boolean;
+	advantage?: Advantage;
 }
 
-export interface IDieResult {
+export interface IDieResult extends IDie {
 	rolls: number[];
 	total: number;
-	die: IDie;
 }
 
-export interface IDiceExpression {
+export interface IDice {
 	dice: IDie[];
 }
 
-export interface IDiceExpressionResult {
+export interface IDiceResult extends IDice {
 	results: IDieResult[];
 	total: number;
-	dice: IDiceExpression;
 }
 
 export class Die implements IDie {
-	ammount: number = 1;
+	count: number = 1;
 	sides: number = 6;
 	modifier: number = 0;
-	chooseCount: number = 1;
-	rollCount: number = 1;
-	chooseTop: boolean = false;
+	advantage?: Advantage;
 
 	constructor(die: Partial<IDie>) {
-		const { ammount, sides, modifier, chooseCount, rollCount, chooseTop } = die;
-		this.ammount = ammount || this.ammount;
+		const { advantage, count: count, modifier, sides } = die;
+		this.count = count || this.count;
 		this.sides = sides || this.sides;
 		this.modifier = modifier || this.modifier;
-		this.chooseCount = chooseCount || this.chooseCount;
-		this.rollCount = rollCount || this.rollCount;
-		this.chooseTop = chooseTop || this.chooseTop;
+		this.advantage = advantage;
 	}
 
-	static fromString(dieString: string): Die | null {
-		const parts = dieString.split("/([+-])/g");
-		const dice = parts[0];
-		const modifier = parts[1];
+	// static fromString(dieString: string): Die | null {
+	// 	const parts = dieString.split("/([+-])/g");
+	// 	const dice = parts[0];
+	// 	const modifier = parts[1];
 
-		const diceParts = dice.split("d");
-		const ammount = diceParts[0];
-		const sides = diceParts[1];
+	// 	const diceParts = dice.split("d");
+	// 	const ammount = diceParts[0];
+	// 	const sides = diceParts[1];
 
-		// create the die
+	// 	// create the die
 
-		//TODO
-		return null;
-	}
+	// 	//TODO
+	// 	return null;
+	// }
 
-	static fromStandardDie(
-		die: StandardDice,
+	static d(
+		die: D,
 		count: number = 1,
 		adv?: Advantage,
 		modifier: number = 0
 	): Die {
 		return new Die({
-			ammount: count,
+			count,
 			sides: die,
+			advantage: adv,
 			modifier,
-			rollCount: adv ? 2 : 1,
-			chooseTop: adv === Advantage.Advantage,
-			chooseCount: 1,
 		});
 	}
 
@@ -91,33 +81,41 @@ export class Die implements IDie {
 		let result = 0;
 		const rolls: number[] = [];
 
-		for (let i = 0; i < this.rollCount; i++) {
-			const roll = Math.floor(Math.random() * this.sides) + 1;
-			rolls.push(roll);
-		}
+		for (let i = 0; i < this.count; i++) {
+			if (this.advantage) {
+				const res1 = Math.floor(Math.random() * this.sides) + 1;
+				const res2 = Math.floor(Math.random() * this.sides) + 1;
 
-		const sorted = rolls.toSorted((a, b) => (this.chooseTop ? b - a : a - b));
+				rolls.push(res1, res2);
+				result +=
+					this.advantage === Advantage.Advantage
+						? Math.max(res1, res2)
+						: Math.min(res1, res2);
+			} else {
+				const res = Math.floor(Math.random() * this.sides) + 1;
 
-		for (let i = 0; i < this.chooseCount; i++) {
-			result += sorted[i];
+				rolls.push(res);
+				result += res;
+			}
 		}
 
 		return {
-			total: result + this.modifier,
+			...this,
 			rolls,
-			die: this,
+			total: result + this.modifier,
 		};
 	}
 }
 
-export class DiceExpression implements IDiceExpression {
+export class Dice implements IDice {
 	dice: Die[];
+	noder: number;
 
-	constructor(diceExp: IDiceExpression) {
+	constructor(diceExp: IDice) {
 		this.dice = diceExp.dice.map(die => new Die(die));
 	}
 
-	roll(): IDiceExpressionResult {
+	roll(): IDiceResult {
 		const results: IDieResult[] = [];
 		let total = 0;
 
@@ -128,9 +126,9 @@ export class DiceExpression implements IDiceExpression {
 		}
 
 		return {
+			...this,
 			results,
 			total,
-			dice: this,
 		};
 	}
 
@@ -139,3 +137,8 @@ export class DiceExpression implements IDiceExpression {
 		return this;
 	}
 }
+
+export type Roll = IDiceResult & {
+	name: string;
+	id: string;
+};
