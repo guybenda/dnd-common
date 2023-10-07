@@ -1,7 +1,9 @@
 import { IDiceExpression, IDiceExpressionResult } from ".";
+import { User } from "./user";
 
 export interface ServerToClientEvents {
 	rollResult: (name: string, id: string, result: IDiceExpressionResult) => void;
+	currentPlayers: (players: User[]) => void;
 }
 
 export interface ClientToServerEvents {
