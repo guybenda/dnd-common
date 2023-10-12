@@ -6,14 +6,15 @@ import { User } from ".";
  * A player only exists in the context of a game.
  */
 export type Player = {
-	/**
-	 * Stored in the database as a string, can be populated with a User object.
-	 */
-	user: User | string;
+	user: User;
 	data: PlayerData;
 };
 
 export type PlayerData = {
 	currHealth: number;
 	maxHealth: number;
+};
+
+export type DBPlayer = Omit<Player, "user"> & {
+	userId: string;
 };
