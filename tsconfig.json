@@ -5,8 +5,8 @@
 		"target": "ESNext",
 		"moduleResolution": "Bundler",
 		"outDir": "./lib",
-		"declaration": true
+		"declaration": true,
+		"strict": true
 	},
-
 	"extensions": [".ts", ".js"]
 }

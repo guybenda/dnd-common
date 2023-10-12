@@ -14,10 +14,10 @@ export interface ClientToServerEvents {
 export interface InterServerEvents {}
 
 export interface SocketData {
+	userId: string;
 	isAdmin: boolean;
 }
 
 export type UserAuth = {
 	userId: string;
-	gameId: string;
 };

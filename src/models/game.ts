@@ -1,4 +1,5 @@
-import { Roll, User } from ".";
+import { Roll } from ".";
+import { Player } from "./player";
 
 export type Game = {
 	id: string;
@@ -8,6 +9,6 @@ export type Game = {
 };
 
 export type GameData = {
-	players?: User[];
-	recentRolls?: Roll[];
+	players: Player[];
+	recentRolls: Roll[];
 };

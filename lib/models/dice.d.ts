@@ -39,7 +39,6 @@ export declare class Die implements IDie {
 }
 export declare class Dice implements IDice {
     dice: Die[];
-    noder: number;
     constructor(diceExp: IDice);
     roll(): IDiceResult;
     add(die: Die): this;

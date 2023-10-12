@@ -109,7 +109,6 @@ export class Die implements IDie {
 
 export class Dice implements IDice {
 	dice: Die[];
-	noder: number;
 
 	constructor(diceExp: IDice) {
 		this.dice = diceExp.dice.map(die => new Die(die));
