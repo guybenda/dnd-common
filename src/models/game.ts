@@ -6,9 +6,14 @@ export type Game = {
 	name: string;
 	adminId: string;
 	data: GameData;
+	// privateData: GamePrivateData; TODO
 };
 
 export type GameData = {
 	players: Player[];
 	recentRolls: Roll[];
+};
+
+export type GamePrivateData = {
+	test: number[];
 };

@@ -10,3 +10,6 @@ export type GameData = {
     players: Player[];
     recentRolls: Roll[];
 };
+export type GamePrivateData = {
+    test: number[];
+};
